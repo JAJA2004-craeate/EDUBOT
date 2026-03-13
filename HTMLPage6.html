@@ -87,71 +87,9 @@
     const messagesDiv = document.getElementById('messages');
     const inputField = document.getElementById('userInput');
 
-    const responses = {
-        "anatómia a stenóza": "<b>Anatómia a patológia:</b><br>• <b>Laryngotracheálna stenóza</b> je zúženie dýchacích ciest v oblasti hrtana alebo priedušnice. Najčastejšie vzniká ako následok dlhodobej intubácie (tlak nafúknutej manžety na sliznicu spôsobuje ischémiu a jazvenie).<br>• <b>Cieľ:</b> MTT pôsobí ako mechanická opora (stent), ktorá bráni opätovnému zúženiu po chirurgickom rozšírení.",
-        
-        "charakteristika mtt": "<b>Čo je to MTT?</b><br>Ide o silikónovú pomôcku v tvare písmena T. <br>• <b>Horné rameno:</b> Smeruje k hlasivkám.<br>• <b>Dolné rameno:</b> Smeruje do priedušnice.<br>• <b>Vonkajšie rameno:</b> Vyúsťuje cez krk a umožňuje komunikáciu a odsávanie. Silikón je biokompatibilný a bráni usadzovaniu sekrétu lepšie než iné materiály.",
-        
-        "detailné odsávanie": "<b>Detailný postup odsávania:</b><br>1. <b>Hĺbka:</b> Odsávací katéter zavádzajte len po dĺžku vonkajšieho ramena (cca 10-15 cm). <b>Nikdy nezavádzajte silou hlboko do priedušnice!</b><br>2. <b>Technika:</b> Zavádzať bez podtlaku. Odsávať prerušovane a krúživým pohybom pri vyťahovaní.<br>3. <b>Trvanie:</b> Jeden cyklus max. 10-15 sekúnd.<br>4. <b>Indikácia:</b> Odsávame len 'podľa potreby' (keď pacient nevie hlien vykašľať alebo buble).",
-        
-        "preväz a dezinfekcia": "<b>Preväz a hygiena stómie:</b><br>• <b>Frekvencia:</b> Minimálne 2x denne a vždy pri znečistení.<br>• <b>Dezinfekcia:</b> Na kožu okolia stómie používame <b>neagresívne antiseptiká</b> (napr. Octenisept). Vyhýbame sa prípravkom s jódom alebo alkoholom, ak dráždia sliznicu.<br>• <b>Materiál:</b> Sterilné gázové štvorce a fyziologický roztok (NaCl 0,9%) na mechanické očistenie.<br>• <b>Postup:</b> Očistiť, dezinfikovať, nechať zaschnúť a priložiť čistý 'Y' nástrih gázy pod rameno kanyly.",
-        
-        "zvlhčovanie": "<b>Dôležitosť zvlhčovania:</b><br>Vzduch pri MTT obchádza horné dýchacie cesty (nos), preto je suchý a studený.<br>• <b>Nebulizácia:</b> Inhalácie fyziologického roztoku (3-4x denne) sú kľúčové pre riedenie sekrétu.<br>• <b>Umelý nos:</b> Ak je to možné, na vonkajšie rameno sa nasadzuje výmenník tepla a vlhkosti (HME filter).<br>• <b>Pitný režim:</b> Pacient musí piť dostatok tekutín, aby sa predišlo vzniku <b>krúst</b> (hlienových zátok).",
-        
-        "fázy starostlivosti": "<b>Ošetrovateľská starostlivosť:</b><br>• <b>Predoperačná:</b> Edukácia pacienta o tom, že po operácii bude dýchať cez krk a dočasne nebude môcť rozprávať.<br>• <b>Intraoperačná:</b> Príprava rigidného bronchoskopu a sady MTT rôznych veľkostí.<br>• <b>Pooperačná:</b> Sledovanie krvácania, emfyzému (pukanie pod kožou) a priechodnosti tubusu.",
-        
-        "komplikácie": "<b>Možné komplikácie:</b><br>1. <b>Hlienová zátka (krusta):</b> Upchatie MTT – vyžaduje okamžitú inhaláciu a odsatie.<br>2. <b>Granulácie:</b> Nadmerné hojenie tkaniva (živé mäso) v okolí stómie.<br>3. <b>Macerácia:</b> Rozmočenie kože sekrétom pod kanylou.<br>4. <b>Infekcia:</b> Prejavuje sa hnisom, zápachom a teplotou.",
-        
-        "dekanylácia": "<b>Odstránenie MTT:</b><br>Dekanylácia sa plánuje po zhojení stenózy (zvyčajne po niekoľkých mesiacoch). Vykonáva sa v celkovej anestézii. Po vybratí sa sleduje, či pacient dýcha voľne, a otvor (stómia) sa nechá spontánne zatvoriť alebo sa zašije.",
-        
-        "indikácie a implantácia": "<b>Indikácie a Implantácia:</b><br>• <b>Kedy:</b> Pri inoperabilných stenózach alebo ako stent po resekcii trachey.<br>• <b>Ako:</b> Zavádza sa cez tracheostómiu počas laryngoskopie/bronchoskopie v celkovej anestézii. Poloha ramien sa kontroluje optikou.",
-        
-        "varovné signály": "<b class='alert'>🚨 KRÍZOVÉ STAVY:</b><br>• Horúčka nad 38,5 °C.<br>• Vykašliavanie čerstvej krvi.<br>• Pískavé dýchanie (stridor).<br>• Nemožnosť dýchať cez tubus (riziko úplného upchatia)."
-    };
-
-    function addMsg(text, type) {
-        const d = document.createElement('div');
-        d.className = 'msg ' + type;
-        d.innerHTML = text;
-        messagesDiv.appendChild(d);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-
-    function ask(q) {
-        addMsg(q, 'user');
-        processResponse(q.toLowerCase());
-    }
-
-    function handleInput() {
-        const val = inputField.value.trim();
-        if(val) {
-            addMsg(val, 'user');
-            processResponse(val.toLowerCase());
-            inputField.value = '';
-        }
-    }
-
-    function processResponse(t) {
-        setTimeout(() => {
-            let r = "Informáciu o tomto detaile v databáze nemám. Skúste vybrať jednu z hlavných kapitol vyššie.";
-            
-            if(t.includes("anatóm") || t.includes("stenóz")) r = responses["anatómia a stenóza"];
-            else if(t.includes("čo je") || t.includes("mtt") || t.includes("charakter")) r = responses["charakteristika mtt"];
-            else if(t.includes("odsáv")) r = responses["detailné odsávanie"];
-            else if(t.includes("dezinfek") || t.includes("preväz") || t.includes("hygien")) r = responses["preväz a dezinfekcia"];
-            else if(t.includes("zvlhč")) r = responses["zvlhčovanie"];
-            else if(t.includes("fáz") || t.includes("operác")) r = responses["fázy starostlivosti"];
-            else if(t.includes("komplik")) r = responses["komplikácie"];
-            else if(t.includes("dekanyl")) r = responses["dekanylácia"];
-            else if(t.includes("indik") || t.includes("implanta")) r = responses["indikácie a implantácia"];
-            else if(t.includes("signál") || t.includes("horúč") || t.includes("krv")) r = responses["varovné signály"];
-
-            addMsg(r, 'bot');
-        }, 500);
-    }
-
-    inputField.addEventListener("keypress", (e) => { if(e.key === "Enter") handleInput(); });
-</script>
-
-</body>
-</html>
+  <div style="text-align: center; margin-top: 20px;">
+  <a href="https://poe.com/invite/13b5e1176e914e82b27230f20d2b5f21" target="_blank" 
+     style="background-color: #1a508b; color: white; padding: 15px 25px; text-decoration: none; border-radius: 10px; font-weight: bold;">
+     Otvoriť MTT asistenta
+  </a>
+</div>
